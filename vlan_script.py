@@ -1,5 +1,6 @@
 import yaml
 from netmiko import ConnectHandler
+import traceback
 
 class SwitchConfiguration:
     def __init__(self, switch_ip, username, password):
@@ -13,14 +14,16 @@ class SwitchConfiguration:
             self.switch_connection = ConnectHandler(switch_dict)
             print(f"Connection successful to {switch_dict['host']}!")
         except Exception as e:
-            print(f"Connection failed! Maybe the switch is offline? - {e}")
-
+            print(f"Connection failed! Maybe the switch is offline? - {e} - {traceback.format_exc()}")
 
     def identify_vlans(self):
         """Method for part C1. Returns the identified vlans as a string."""
-        show_vlan = self.switch_connection.send_command("show vlan")
-        print(show_vlan)
-        return show_vlan
+        if self.switch_connection:
+            show_vlan = self.switch_connection.send_command("show vlan")
+            print(show_vlan)
+            return show_vlan
+
+        print("Error! Unable to list vlans. Connection Failed!")
 
     def configure_vlans(self):
         """Method for part C2. Configures VLANs on the switches. Returns the orginal switch configuration."""
@@ -51,6 +54,6 @@ def main():
             for switch in switches:
                 switch.identify_vlans()
     except Exception as e:
-        print(f"Error reading the /etc/ansible/inventory/switches file. Does it exist? - {e}")
+        print(f"Error reading the /etc/ansible/inventory/switches file. Does it exist? - {e} - {traceback.format_exc()}")
     
 main()
