@@ -20,7 +20,7 @@ class SwitchConfiguration:
             print(f"Connection failed! Maybe the switch is offline? - {e}")
 
     def identify_vlans(self):
-        """Method for part C1. Returns VLANs as a set."""
+        """Method for part C1. Returns VLANs as an array."""
         if self.switch_connection:
             # Run command to show vlans
             show_vlan = self.switch_connection.send_command("show vlan detail")
@@ -29,11 +29,8 @@ class SwitchConfiguration:
         print("Error! Unable to list vlans. Connection Failed!")
     
     def parse_vlans(self, command_output):
-        """Helper method to parse VLANs into a set"""
-        # Create the set
-        vlan_set = set()
-        print(re.findall(r'^VLAN Interface with name (.*) created by', command_output))
-        return re.findall(r'^VLAN Interface with name (.*) created by', command_output)
+        """Helper method to parse VLANs into an array"""
+        return re.findall(r'VLAN Interface with name (.*) created by', command_output)
 
     def configure_vlans(self):
         """Method for part C2. Configures VLANs on the switches. Returns the orginal switch configuration."""
