@@ -12,8 +12,8 @@ class SwitchConfiguration:
         try:
             self.switch_connection = ConnectHandler(switch_dict)
             print(f"Connection successful to {switch_dict['host']}!")
-        except Exception:
-            print("Connection failed! Maybe the switch is offline?")
+        except Exception as e:
+            print(f"Connection failed! Maybe the switch is offline? - {e}")
 
 
     def identify_vlans(self):
@@ -50,7 +50,7 @@ def main():
 
             for switch in switches:
                 switch.identify_vlans()
-    except Exception:
-        print("Error reading the /etc/ansible/hosts file. Does it exist?")
+    except Exception as e:
+        print(f"Error reading the /etc/ansible/inventory/switches file. Does it exist? - {e}")
     
 main()
