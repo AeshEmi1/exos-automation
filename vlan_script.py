@@ -33,15 +33,7 @@ class SwitchConfiguration:
         # Create the set
         vlan_set = set()
 
-        # Loop through the command output
-        for line in command_output:
-            # Check if regex matches to grab the vlan name
-            match_vlans = re.match(r'^VLAN Interface with name (.*) created by', line)
-            if match_vlans:
-                vlan_set.add(match_vlans.group(1))
-        
-        # Returns the vlan set
-        return vlan_set
+        return re.findall(r'^VLAN Interface with name (.*) created by', command_output)
 
     def configure_vlans(self):
         """Method for part C2. Configures VLANs on the switches. Returns the orginal switch configuration."""
