@@ -11,7 +11,7 @@ class SwitchConfiguration:
             "password": password
         }
         try:
-            self.switch_connection = ConnectHandler(switch_dict)
+            self.switch_connection = ConnectHandler(**switch_dict)
             print(f"Connection successful to {switch_dict['host']}!")
         except Exception as e:
             print(f"Connection failed! Maybe the switch is offline? - {e} - {traceback.format_exc()}")
