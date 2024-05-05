@@ -75,7 +75,7 @@ def main():
                 all_vlans.update(switch.identify_vlans())
             
             # Print out the Vlans
-            print(f"VLANs: {\", \".join(str(vlan) for vlan in all_vlans)}")
+            print(f"VLANs: {', '.join(str(vlan) for vlan in all_vlans)}")
 
     except Exception as e:
         print(f"Error reading the /etc/ansible/inventory/switches file. Does it exist? - {e}")
