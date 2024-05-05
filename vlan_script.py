@@ -9,11 +9,11 @@ class SwitchConfiguration:
             "username": username,
             "password": password
         }
-        #try:
-        self.switch_connection = ConnectHandler(self.switch_dict)
-        print(f"Connection successful to {switch_dict['host']}!")
-        #except Exception:
-        #    print("Connection failed! Maybe the switch is offline?")
+        try:
+            self.switch_connection = ConnectHandler(switch_dict)
+            print(f"Connection successful to {switch_dict['host']}!")
+        except Exception:
+            print("Connection failed! Maybe the switch is offline?")
 
 
     def identify_vlans(self):
@@ -34,7 +34,7 @@ class SwitchConfiguration:
 
 def main():
     # Read Ansible inventory file
-#    try:
+    try:
     with open("/etc/ansible/inventory/switches", 'r') as f:
         ansible_inventory = yaml.safe_load(f)
 
@@ -50,7 +50,7 @@ def main():
 
         for switch in switches:
             switch.identify_vlans()
-#    except Exception:
-#        print("Error reading the /etc/ansible/hosts file. Does it exist?")
+    except Exception:
+        print("Error reading the /etc/ansible/hosts file. Does it exist?")
     
 main()
