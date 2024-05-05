@@ -36,7 +36,7 @@ class SwitchConfiguration:
         # Loop through the command output
         for line in command_output:
             # Check if regex matches to grab the vlan name
-            match_vlans = re.match(r'^VLAN Interface with name (.*) created by user$', line.strip())
+            match_vlans = re.match(r'^VLAN Interface with name (.*) created by', line)
             if match_vlans:
                 vlan_set.add(match_vlans.group(1))
         
