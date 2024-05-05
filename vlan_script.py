@@ -32,7 +32,7 @@ class SwitchConfiguration:
         """Helper method to parse VLANs into a set"""
         # Create the set
         vlan_set = set()
-
+        print(re.findall(r'^VLAN Interface with name (.*) created by', command_output))
         return re.findall(r'^VLAN Interface with name (.*) created by', command_output)
 
     def configure_vlans(self):
