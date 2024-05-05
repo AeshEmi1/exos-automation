@@ -24,11 +24,11 @@ class SwitchConfiguration:
         if self.switch_connection:
             # Run command to show vlans
             show_vlan = self.switch_connection.send_command("show vlan detail")
-            return parse_vlans(show_vlan)
+            return self.parse_vlans(show_vlan)
 
         print("Error! Unable to list vlans. Connection Failed!")
     
-    def parse_vlans(command_output):
+    def parse_vlans(self, command_output):
         """Helper method to parse VLANs into a set"""
         # Create the set
         vlan_set = {}
