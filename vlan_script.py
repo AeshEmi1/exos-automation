@@ -35,21 +35,21 @@ class SwitchConfiguration:
 def main():
     # Read Ansible inventory file
     try:
-    with open("/etc/ansible/inventory/switches", 'r') as f:
-        ansible_inventory = yaml.safe_load(f)
+        with open("/etc/ansible/inventory/switches", 'r') as f:
+            ansible_inventory = yaml.safe_load(f)
 
-        # Get switch ips and save them to an array
-        switch_ips = [host['ansible_host'] for host in ansible_inventory['switches']['hosts'].values()]
+            # Get switch ips and save them to an array
+            switch_ips = [host['ansible_host'] for host in ansible_inventory['switches']['hosts'].values()]
 
-        # Get the Switch's Credentials
-        username = ansible_inventory['switches']['vars']['ansible_user']
-        password = ansible_inventory['switches']['vars']['ansible_ssh_pass']
-        
-        # Create an array of SwitchConfiguration Objects
-        switches = [SwitchConfiguration(switch_ip, username, password) for switch_ip in switch_ips]
+            # Get the Switch's Credentials
+            username = ansible_inventory['switches']['vars']['ansible_user']
+            password = ansible_inventory['switches']['vars']['ansible_ssh_pass']
+            
+            # Create an array of SwitchConfiguration Objects
+            switches = [SwitchConfiguration(switch_ip, username, password) for switch_ip in switch_ips]
 
-        for switch in switches:
-            switch.identify_vlans()
+            for switch in switches:
+                switch.identify_vlans()
     except Exception:
         print("Error reading the /etc/ansible/hosts file. Does it exist?")
     
