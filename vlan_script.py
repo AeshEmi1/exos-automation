@@ -31,7 +31,7 @@ class SwitchConfiguration:
     def parse_vlans(self, command_output):
         """Helper method to parse VLANs into a set"""
         # Create the set
-        vlan_set = {}
+        vlan_set = set()
 
         # Loop through the command output
         for line in command_output:
@@ -68,7 +68,7 @@ def main():
             switches = [SwitchConfiguration(switch_ip, username, password) for switch_ip in switch_ips]
 
             # Create a set of all VLANs
-            all_vlans = {}
+            all_vlans = set()
 
             # Add found vlans to the all_vlans set
             for switch in switches:
