@@ -38,7 +38,10 @@ class SwitchConfiguration:
             # Check if regex matches to grab the vlan name
             match_vlans = re.match(r'^VLAN Interface with name (.*) created by user$', line.strip())
             if match_vlans:
-                vlan_set.add(match_vlans.group(1))              
+                vlan_set.add(match_vlans.group(1))
+        
+        # Returns the vlan set
+        return vlan_set
 
     def configure_vlans(self):
         """Method for part C2. Configures VLANs on the switches. Returns the orginal switch configuration."""
@@ -64,8 +67,15 @@ def main():
             # Create an array of SwitchConfiguration Objects
             switches = [SwitchConfiguration(switch_ip, username, password) for switch_ip in switch_ips]
 
+            # Create a set of all VLANs
+            all_vlans = {}
+
+            # Add found vlans to the all_vlans set
             for switch in switches:
-                switch.identify_vlans()
+                all_vlans.add(switch.identify_vlans())
+            
+            # Print out the Vlans
+            print(all_vlans)
     except Exception as e:
         print(f"Error reading the /etc/ansible/inventory/switches file. Does it exist? - {e}")
     
