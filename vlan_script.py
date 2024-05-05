@@ -1,6 +1,6 @@
 import yaml
 from netmiko import ConnectHandler
-import traceback
+import re
 
 class SwitchConfiguration:
     def __init__(self, switch_ip, username, password):
@@ -10,30 +10,43 @@ class SwitchConfiguration:
             "username": username,
             "password": password
         }
+        self.switch_connection = None
+
+        # Connect to the switches
         try:
             self.switch_connection = ConnectHandler(**switch_dict)
             print(f"Connection successful to {switch_dict['host']}!")
         except Exception as e:
-            print(f"Connection failed! Maybe the switch is offline? - {e} - {traceback.format_exc()}")
+            print(f"Connection failed! Maybe the switch is offline? - {e}")
 
     def identify_vlans(self):
-        """Method for part C1. Returns the identified vlans as a string."""
+        """Method for part C1. Returns VLANs as a set."""
         if self.switch_connection:
-            show_vlan = self.switch_connection.send_command("show vlan")
-            print(show_vlan)
-            return show_vlan
+            # Run command to show vlans
+            show_vlan = self.switch_connection.send_command("show vlan detail")
+            return parse_vlans(show_vlan)
 
         print("Error! Unable to list vlans. Connection Failed!")
+    
+    def parse_vlans(command_output):
+        """Helper method to parse VLANs into a set"""
+        # Create the set
+        vlan_set = {}
+
+        # Loop through the command output
+        for line in command_output:
+            # Check if regex matches to grab the vlan name
+            match_vlans = re.match(r'^VLAN Interface with name (.*) created by user$', line.strip())
+            if match_vlans:
+                vlan_set.add(match_vlans.group(1))              
 
     def configure_vlans(self):
         """Method for part C2. Configures VLANs on the switches. Returns the orginal switch configuration."""
-        
-        return 
+        if self.switch_connection:
+            show_vlan = self.switch_connection.send_command(" ")
+            return
 
-    def export_switch_configuration(self, original_configuration):
-        """Method for part C3. Performs a diff of the switch's configuration after it's modified."""
-        
-        return
+        print("Error! Unable to list vlans. Connection Failed!") 
 
 def main():
     # Read Ansible inventory file
@@ -54,6 +67,6 @@ def main():
             for switch in switches:
                 switch.identify_vlans()
     except Exception as e:
-        print(f"Error reading the /etc/ansible/inventory/switches file. Does it exist? - {e} - {traceback.format_exc()}")
+        print(f"Error reading the /etc/ansible/inventory/switches file. Does it exist? - {e}")
     
 main()
