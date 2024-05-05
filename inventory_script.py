@@ -77,8 +77,8 @@ switches = {
 
 switch_variables = {
     "ansible_connection":"ssh",
-    "ansible_user":"Local-Admin",
-    "ansible_ssh_pass":"WGU123"
+    "ansible_user":"admin",
+    "ansible_ssh_pass":""
 }
 
 # Step E - Create a dictionary of the Windows group with each workstation's elements
@@ -95,8 +95,7 @@ windows = {
         "1",
         "0c:4b:3c:0a:00:00",
         "Intel Gigabit Ethernet (e1000)",
-        True,
-        "DesktopUser1"
+        True
     ],
     "desktop2":[
         "10.10.1.36",
@@ -110,8 +109,7 @@ windows = {
         "1",
         "0c:59:fd:86:00:00",
         "Intel Gigabit Ethernet (e1000)",
-        True,
-        "DesktopUser2"
+        True
     ],
     "desktop3":[
         "10.10.1.43",
@@ -125,8 +123,7 @@ windows = {
         "1",
         "0c:e2:07:f3:00:00",
         "Intel Gigabit Ethernet (e1000)",
-        True,
-        "DesktopUser3"
+        True
     ],
     "desktop4":[
         "10.10.1.29",
@@ -140,14 +137,14 @@ windows = {
         "1",
         "0c:46:74:35:00:00",
         "Intel Gigabit Ethernet (e1000)",
-        True,
-        "DesktopUser4"
+        True
     ]
 }
 
 windows_variables = {
     "ansible_connection":"winrm",
-    "ansible_winrm_pass":"WGU123"
+    "ansible_user":"student",
+    "ansible_winrm_pass":"P@ssw0rd"
 }
 
 # Step E - Create a dictionary of the Linux group with each test box's elements
@@ -164,8 +161,7 @@ linux = {
         "1",
         "0c:cb:a8:90:00:00",
         "Intel Gigabit Ethernet (e1000)",
-        True,
-        "TestUser1"
+        True
     ],
     "test2":[
         "10.10.1.57",
@@ -179,14 +175,13 @@ linux = {
         "1",
         "0c:50:a2:8a:00:00",
         "Intel Gigabit Ethernet (e1000)",
-        True,
-        "TestUser2"
+        True
     ]
 }
 
 linux_variables = {
-    "ansible_connection":"ssh",
-    "ansible_ssh_pass":"WGU123"
+    "ansible_connection":"student",
+    "ansible_ssh_pass":"P@ssw0rd"
 }
 
 # Create an array of each of the groups to pass into the ansible_format function
@@ -226,9 +221,9 @@ def ansible_format(host_groups, group_variables):
         # Create a dictionary in the ansible_dictionary with the appropriate group name
         ansible_inventory[host_group_name] = {}
 
-        # If it's not a switch device add the username variable to host_variables
-        if host_group_name != "switches":
-            host_variables.append("ansible_user")
+        # # If it's not a switch device add the username variable to host_variables
+        # if host_group_name != "switches":
+        #     host_variables.append("ansible_user")
 
         # Add hosts: to the ansible inventory
         ansible_inventory[host_group_name]["hosts"] = {}
@@ -248,7 +243,7 @@ def ansible_format(host_groups, group_variables):
     return ansible_inventory
 
 # Write the ansible inventory to the ansible hosts file
-os.makedirs("/etc/ansible/inventory", exists_ok=True)
+os.makedirs("/etc/ansible/inventory", exist_ok=True)
 
 with open("/etc/ansible/inventory/switches", "w") as f:
     yaml.safe_dump(ansible_format(host_groups, group_variables), f, sort_keys=False)
