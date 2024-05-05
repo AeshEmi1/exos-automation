@@ -180,7 +180,8 @@ linux = {
 }
 
 linux_variables = {
-    "ansible_connection":"student",
+    "ansible_connection":"ssh",
+    "ansible_user":"student",
     "ansible_ssh_pass":"P@ssw0rd"
 }
 
