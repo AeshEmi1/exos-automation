@@ -186,7 +186,8 @@ linux_variables = {
 }
 
 # Create an array of each of the groups to pass into the ansible_format function
-host_groups = [{"switches":switches}, {"windows":windows}, {"linux":linux}]
+switch_groups = [{"switches":switches}, {"windows":windows}, {"linux":linux}]
+workstation_groups = [{"windows":windows}, {"linux":linux}]
 group_variables = {
     "switches": switch_variables,
     "windows": windows_variables,
@@ -194,14 +195,14 @@ group_variables = {
     }
 
 # Turn the array of device groups into an ansible friendly format
-def ansible_format(host_groups, group_variables):
+def ansible_format(device_groups, group_variables):
     # Create the ansible_inventory
     ansible_inventory = {}
 
     # Loop through each device group
-    for host_group in host_groups:
+    for device_group in device_groups:
         # The host variables
-        host_variables = [
+        device_variables = [
             "ansible_host",
             "Name",
             "RAM",
@@ -216,29 +217,25 @@ def ansible_format(host_groups, group_variables):
             "Replicate network connection states in QEMU"
         ]
 
-        # Grab the host group name from the dictionary 
-        host_group_name = next(iter(host_group))
+        # Grab the device group name from the dictionary 
+        device_group_name = next(iter(device_group))
 
         # Create a dictionary in the ansible_dictionary with the appropriate group name
-        ansible_inventory[host_group_name] = {}
-
-        # # If it's not a switch device add the username variable to host_variables
-        # if host_group_name != "switches":
-        #     host_variables.append("ansible_user")
+        ansible_inventory[device_group_name] = {}
 
         # Add hosts: to the ansible inventory
-        ansible_inventory[host_group_name]["hosts"] = {}
+        ansible_inventory[device_group_name]["hosts"] = {}
 
         # Add vars: to the ansible inventory
-        ansible_inventory[host_group_name]["vars"] = {}
+        ansible_inventory[device_group_name]["vars"] = {}
 
         # Loop through each device in that group to grab it's array of elements 
-        for device, element in host_group[host_group_name].items():
+        for device, element in device_group[device_group_name].items():
             # Add the device into the ansible_inventory under hosts:
-            ansible_inventory[host_group_name]["hosts"][device] = {host_variables[i]: element[i] for i in range(len(host_variables))}
+            ansible_inventory[device_group_name]["hosts"][device] = {host_variables[i]: element[i] for i in range(len(host_variables))}
         
         # Add the group variables 
-        ansible_inventory[host_group_name]["vars"] = group_variables[host_group_name]
+        ansible_inventory[device_group_name]["vars"] = group_variables[device_group_name]
     
     # Return the ansible inventory
     return ansible_inventory
@@ -247,4 +244,7 @@ def ansible_format(host_groups, group_variables):
 os.makedirs("/etc/ansible/inventory", exist_ok=True)
 
 with open("/etc/ansible/inventory/switches", "w") as f:
-    yaml.safe_dump(ansible_format(host_groups, group_variables), f, sort_keys=False)
+    yaml.safe_dump(ansible_format(switch_groups, group_variables), f, sort_keys=False)
+
+with open("/etc/ansible/inventory/workstations", "w") as f:
+    yaml.safe_dump(ansible_format(workstation_groups, group_variables), f, sort_keys=False)
