@@ -36,20 +36,20 @@ class SwitchConfiguration:
     def configure_vlans(self):
         """Method for part C2. Configures VLANs on the switches. Returns the orginal switch configuration."""
         if self.switch_connection:
-            print(f"Running command: create vlan user_vlan 10 on {self.host}")
-            self.switch_connection.send_command("create vlan user_vlan 10")
+            print(f"Running command: create vlan user_vlan tag 10 on {self.host}")
+            self.switch_connection.send_command("create vlan user_vlan tag 10")
             print("Success!")
 
-            print(f"Running command: create vlan accoutning_vlan 20 on {self.host}")
-            self.switch_connection.send_command("create vlan accoutning_vlan 20")
+            print(f"Running command: create vlan accoutning_vlan tag 20 on {self.host}")
+            self.switch_connection.send_command("create vlan accoutning_vlan tag 20")
             print("Success!")
 
-            print(f"Running command: create vlan management_vlan 30 on {self.host}")
-            self.switch_connection.send_command("create vlan management_vlan 30")
+            print(f"Running command: create vlan management_vlan tag 30 on {self.host}")
+            self.switch_connection.send_command("create vlan management_vlan tag 30")
             print("Success!")
 
-            print(f"Running command: create vlan it_network 40 on {self.host}")
-            self.switch_connection.send_command("create vlan it_network 40")
+            print(f"Running command: create vlan it_network tag 40 on {self.host}")
+            self.switch_connection.send_command("create vlan it_network tag 40")
             print("Success!")
 
             print(f"Successfully configured {self.host}!")
