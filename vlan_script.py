@@ -10,6 +10,7 @@ class SwitchConfiguration:
             "username": username,
             "password": password
         }
+        self.host = switch_ip
         self.switch_connection = None
 
         # Connect to the switches
@@ -35,14 +36,30 @@ class SwitchConfiguration:
     def configure_vlans(self):
         """Method for part C2. Configures VLANs on the switches. Returns the orginal switch configuration."""
         if self.switch_connection:
-            show_vlan = self.switch_connection.send_command(" ")
-            return
+            print(f"Running command: create vlan user_vlan 10 on {self.host}")
+            self.switch_connection.send_command("create vlan user_vlan 10")
+            print("Success!")
 
-        print("Error! Unable to list vlans. Connection Failed!") 
+            print(f"Running command: create vlan accoutning_vlan 20 on {self.host}")
+            self.switch_connection.send_command("create vlan accoutning_vlan 20")
+            print("Success!")
+
+            print(f"Running command: create vlan management_vlan 30 on {self.host}")
+            self.switch_connection.send_command("create vlan management_vlan 30")
+            print("Success!")
+
+            print(f"Running command: create vlan it_network 40 on {self.host}")
+            self.switch_connection.send_command("create vlan it_network 40")
+            print("Success!")
+
+            print(f"Successfully configured {self.host}!")
+            return f"VLANs on {self.host}: {self.identify_vlans()}"
+
+        print("Error! Unable to configure VLANs. Connection Failed!") 
 
 def main():
-    # Read Ansible inventory file
     try:
+        # Read Ansible inventory file
         with open("/etc/ansible/inventory/switches", 'r') as f:
             ansible_inventory = yaml.safe_load(f)
 
@@ -59,12 +76,16 @@ def main():
             # Create a set of all VLANs
             all_vlans = set()
 
-            # Add found vlans to the all_vlans set
+            # Step C1 - Add found vlans to the all_vlans set
             for switch in switches:
                 all_vlans.update(switch.identify_vlans())
             
             # Print out the Vlans
             print(f"VLANs: {', '.join(str(vlan) for vlan in all_vlans)}")
+
+            # Step C2 - Configure vlans
+            for switch in switches:
+                print(switch.configure_vlans())
 
     except Exception as e:
         print(f"Error reading the /etc/ansible/inventory/switches file. Does it exist? - {e}")
