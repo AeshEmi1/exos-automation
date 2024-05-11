@@ -53,7 +53,7 @@ class SwitchConfiguration:
             print("Success!")
 
             print(f"Successfully configured {self.host}!")
-            return f"VLANs on {self.host}: {', '.join(self.identify_vlans())}"
+            return f"VLANs on {self.host}: {', '.join(self.identify_vlans())}\n"
 
         print("Error! Unable to configure VLANs. Connection Failed!") 
 
@@ -81,7 +81,7 @@ def main():
                 all_vlans.update(switch.identify_vlans())
             
             # Print out the Vlans
-            print(f"VLANs: {', '.join(str(vlan) for vlan in all_vlans)}")
+            print(f"\nVLANs: {', '.join(str(vlan) for vlan in all_vlans)}\n")
 
             # Step C2 - Configure vlans
             for switch in switches:
