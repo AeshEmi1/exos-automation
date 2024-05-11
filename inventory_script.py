@@ -232,7 +232,7 @@ def ansible_format(device_groups, group_variables):
         # Loop through each device in that group to grab it's array of elements 
         for device, element in device_group[device_group_name].items():
             # Add the device into the ansible_inventory under hosts:
-            ansible_inventory[device_group_name]["hosts"][device] = {host_variables[i]: element[i] for i in range(len(host_variables))}
+            ansible_inventory[device_group_name]["hosts"][device] = {group_variables[i]: element[i] for i in range(len(group_variables))}
         
         # Add the group variables 
         ansible_inventory[device_group_name]["vars"] = group_variables[device_group_name]
