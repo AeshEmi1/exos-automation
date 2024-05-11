@@ -41,7 +41,7 @@ class SwitchConfiguration:
             print("Success!")
 
             print(f"Running command: create vlan accoutning_vlan tag 20 on {self.host}")
-            self.switch_connection.send_command("create vlan accoutning_vlan tag 20")
+            self.switch_connection.send_command("create vlan accounting_vlan tag 20")
             print("Success!")
 
             print(f"Running command: create vlan management_vlan tag 30 on {self.host}")
@@ -53,7 +53,7 @@ class SwitchConfiguration:
             print("Success!")
 
             print(f"Successfully configured {self.host}!")
-            return f"VLANs on {self.host}: {self.identify_vlans()}"
+            return f"VLANs on {self.host}: {', '.join(self.identify_vlans())}"
 
         print("Error! Unable to configure VLANs. Connection Failed!") 
 
