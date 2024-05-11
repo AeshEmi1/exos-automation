@@ -186,7 +186,7 @@ linux_variables = {
 }
 
 # Create an array of each of the groups to pass into the ansible_format function
-switch_groups = [{"switches":switches}, {"windows":windows}, {"linux":linux}]
+switch_groups = [{"switches":switches}]
 workstation_groups = [{"windows":windows}, {"linux":linux}]
 group_variables = {
     "switches": switch_variables,
