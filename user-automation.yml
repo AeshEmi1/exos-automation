@@ -1,0 +1,59 @@
+---
+- name: Create switch account
+  hosts: switches
+  tasks:
+  - name: Create Local-Admin
+    community.network.exos_command:
+      commands: create account admin Local-Admin WGU123
+
+- name: Create Windows accounts
+  hosts: windows
+  become: true
+  tasks:
+    - name: Create DesktopUser1
+      delegate_to: desktop1
+      ansible.windows.win_user:
+        name: DesktopUser1
+        password: WGU123
+        groups:
+          - Administrators
+    - name: Create DesktopUser2
+      delegate_to: desktop2
+      ansible.windows.win_user:
+        name: DesktopUser2
+        password: WGU123
+        groups:
+          - Administrators
+    - name: Create DesktopUser3
+      delegate_to: desktop3
+      ansible.windows.win_user:
+        name: DesktopUser3
+        password: WGU123
+        groups:
+          - Administrators
+    - name: Create DesktopUser4
+      delegate_to: desktop4
+      ansible.windows.win_user:
+        name: DesktopUser4
+        password: WGU123
+        groups:
+          - Administrators
+
+- name: Create Linux accounts
+  hosts: linux
+  become: true
+  tasks:
+    - name: Create TestUser1
+      delegate_to: test1
+      ansible.builtin.user:
+        name: TestUser1
+        password: WGU123
+        groups:
+          - Administrators
+    - name: Create TestUser1
+      delegate_to: test2
+      ansible.builtin.user:
+        name: TestUser1
+        password: WGU123
+        groups:
+          - Administrators
