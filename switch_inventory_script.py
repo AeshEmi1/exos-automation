@@ -248,6 +248,8 @@ os.makedirs("/etc/ansible/inventory", exist_ok=True)
 
 with open("/etc/ansible/inventory/switches", "w") as f:
     yaml.safe_dump(ansible_format(switch_groups, group_variables), f, sort_keys=False)
+    print("Successfully wrote switch inventory file to /etc/ansible/inventory/switches!")
 
-with open("/etc/ansible/inventory/workstations", "w") as f:
-    yaml.safe_dump(ansible_format(workstation_groups, group_variables), f, sort_keys=False)
+# with open("/etc/ansible/inventory/workstations", "w") as f:
+#     yaml.safe_dump(ansible_format(workstation_groups, group_variables), f, sort_keys=False)
+#     print("Successfully wrote workstation inventory file to /etc/ansible/inventory/workstations!")
