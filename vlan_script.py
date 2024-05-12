@@ -77,9 +77,10 @@ def configure_vlans(switch_list):
 
 def main():
     # Take arguments for C1 and C2
-    args = argparse.ArgumentParser(description="Script to list and configure vlans on EXOS switches")
-    args.add_argument('--list', action='store_true', help='View vlans')
-    args.add_argument('--configure', action='store_true', help='Configure vlans')
+    parser = argparse.ArgumentParser(description="Script to list and configure vlans on EXOS switches")
+    parser.add_argument('--list', action='store_true', help='View vlans')
+    parser.add_argument('--configure', action='store_true', help='Configure vlans')
+    args = parser.parse_args()
 
     try:
         # Read Ansible inventory file
