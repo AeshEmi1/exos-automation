@@ -57,6 +57,23 @@ class SwitchConfiguration:
 
         print("Error! Unable to configure VLANs. Connection Failed!") 
 
+
+def print_vlans(switch_list):
+    """Function for step C1, shows the vlans across the environment."""
+    # Create a set of all VLANs
+    all_vlans = set()
+
+    for switch in switch_list:
+        all_vlans.update(switch.identify_vlans())
+
+    return f"\nVLANs: {', '.join(str(vlan) for vlan in all_vlans)}\n"
+
+def configure_vlans(switch_list):
+    """Function for step C2, configures vlans on the switches."""
+    # Step C2 - Configure vlans
+    for switch in switch_list:
+        print(switch.configure_vlans())    
+
 def main():
     try:
         # Read Ansible inventory file
@@ -72,20 +89,12 @@ def main():
             
             # Create an array of SwitchConfiguration Objects
             switches = [SwitchConfiguration(switch_ip, username, password) for switch_ip in switch_ips]
-
-            # Create a set of all VLANs
-            all_vlans = set()
-
-            # Step C1 - Add found vlans to the all_vlans set
-            for switch in switches:
-                all_vlans.update(switch.identify_vlans())
-            
+          
             # Print out the Vlans
-            print(f"\nVLANs: {', '.join(str(vlan) for vlan in all_vlans)}\n")
+            print(print_vlans(switches))
 
             # Step C2 - Configure vlans
-            for switch in switches:
-                print(switch.configure_vlans())
+            configure_vlans(switches)
 
     except Exception as e:
         print(f"Error reading the /etc/ansible/inventory/switches file. Does it exist? - {e}")
