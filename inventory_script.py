@@ -76,9 +76,10 @@ switches = {
 }
 
 switch_variables = {
-    "ansible_connection":"ssh",
+    "ansible_connection":"ansible.netcommon.network_cli",
+    "ansible_network_os":"community.network.exos",
     "ansible_user":"admin",
-    "ansible_ssh_pass":""
+    "ansible_pass":""
 }
 
 # Step E - Create a dictionary of the Windows group with each workstation's elements
@@ -145,6 +146,7 @@ windows_variables = {
     "ansible_connection":"winrm",
     "ansible_user":"student",
     "ansible_winrm_pass":"P@ssw0rd"
+    "ansible_winrm_port":"5985"
 }
 
 # Step E - Create a dictionary of the Linux group with each test box's elements
@@ -183,6 +185,7 @@ linux_variables = {
     "ansible_connection":"ssh",
     "ansible_user":"student",
     "ansible_ssh_pass":"P@ssw0rd"
+    "ansible_become_password":"P@ssw0rd"
 }
 
 # Create an array of each of the groups to pass into the ansible_format function
