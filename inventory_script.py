@@ -145,8 +145,8 @@ windows = {
 windows_variables = {
     "ansible_connection":"winrm",
     "ansible_user":"student",
-    "ansible_winrm_pass":"P@ssw0rd"
-    "ansible_winrm_port":"5985"
+    "ansible_winrm_pass":"P@ssw0rd",
+    "ansible_winrm_port":5985
 }
 
 # Step E - Create a dictionary of the Linux group with each test box's elements
