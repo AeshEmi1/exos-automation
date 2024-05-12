@@ -1,6 +1,7 @@
 import yaml
 from netmiko import ConnectHandler
 import re
+import argparse
 
 class SwitchConfiguration:
     def __init__(self, switch_ip, username, password):
@@ -36,19 +37,19 @@ class SwitchConfiguration:
     def configure_vlans(self):
         """Method for part C2. Configures VLANs on the switches. Returns the orginal switch configuration."""
         if self.switch_connection:
-            print(f"Running command: create vlan user_vlan tag 10 on {self.host}")
+            print(f"Running command on {self.host}: create vlan user_vlan tag 10")
             self.switch_connection.send_command("create vlan user_vlan tag 10")
             print("Success!")
 
-            print(f"Running command: create vlan accoutning_vlan tag 20 on {self.host}")
+            print(f"Running command on {self.host}: create vlan accoutning_vlan tag 20")
             self.switch_connection.send_command("create vlan accounting_vlan tag 20")
             print("Success!")
 
-            print(f"Running command: create vlan management_vlan tag 30 on {self.host}")
+            print(f"Running command on {self.host}: create vlan management_vlan tag 30")
             self.switch_connection.send_command("create vlan management_vlan tag 30")
             print("Success!")
 
-            print(f"Running command: create vlan it_network tag 40 on {self.host}")
+            print(f"Running command on {self.host}: create vlan it_network tag 40")
             self.switch_connection.send_command("create vlan it_network tag 40")
             print("Success!")
 
@@ -75,6 +76,11 @@ def configure_vlans(switch_list):
         print(switch.configure_vlans())    
 
 def main():
+    # Take arguments for C1 and C2
+    parser = argparse.ArgumentParser(description="Script to list and configure vlans on EXOS switches")
+    parser.add_argument('--list', action='store_true', help='View vlans')
+    parser.add_argument('--configure', action='store_true', help='Configure vlans')
+
     try:
         # Read Ansible inventory file
         with open("/etc/ansible/inventory/switches", 'r') as f:
@@ -89,12 +95,23 @@ def main():
             
             # Create an array of SwitchConfiguration Objects
             switches = [SwitchConfiguration(switch_ip, username, password) for switch_ip in switch_ips]
-          
-            # Print out the Vlans
-            print(print_vlans(switches))
 
-            # Step C2 - Configure vlans
-            configure_vlans(switches)
+            if args.list:
+                # Step C1 - List vlans
+                print(print_vlans(switches))
+            
+            if args.configure:
+                # Step C2 - Configure vlans
+                configure_vlans(switches)
+            
+            # If no flags, list and configure
+            if not args.list and not args.configure:
+                # Step C1 - List vlans
+                print(print_vlans(switches))
+
+                # Step C2 - Configure vlans
+                configure_vlans(switches)
+
 
     except Exception as e:
         print(f"Error reading the /etc/ansible/inventory/switches file. Does it exist? - {e}")
