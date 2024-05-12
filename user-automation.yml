@@ -47,12 +47,10 @@
       ansible.builtin.user:
         name: TestUser1
         password: WGU123
-        groups:
-          - Administrators
+        group: sudo
     - name: Create TestUser1
       delegate_to: test2
       ansible.builtin.user:
         name: TestUser1
         password: WGU123
-        groups:
-          - Administrators
+        group: sudo
