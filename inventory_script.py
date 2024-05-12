@@ -11,6 +11,7 @@
   tasks:
     - name: Create DesktopUser1
       delegate_to: desktop1
+      run_once: true
       ansible.windows.win_user:
         name: DesktopUser1
         password: WGU123
@@ -18,6 +19,7 @@
           - Administrators
     - name: Create DesktopUser2
       delegate_to: desktop2
+      run_once: true
       ansible.windows.win_user:
         name: DesktopUser2
         password: WGU123
@@ -25,6 +27,7 @@
           - Administrators
     - name: Create DesktopUser3
       delegate_to: desktop3
+      run_once: true
       ansible.windows.win_user:
         name: DesktopUser3
         password: WGU123
@@ -32,6 +35,7 @@
           - Administrators
     - name: Create DesktopUser4
       delegate_to: desktop4
+      run_once: true
       ansible.windows.win_user:
         name: DesktopUser4
         password: WGU123
@@ -44,12 +48,14 @@
   tasks:
     - name: Create TestUser1
       delegate_to: test1
+      run_once: true
       ansible.builtin.user:
         name: TestUser1
         password: WGU123
         group: sudo
     - name: Create TestUser2
       delegate_to: test2
+      run_once: true
       ansible.builtin.user:
         name: TestUser2
         password: WGU123
