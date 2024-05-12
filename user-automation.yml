@@ -2,13 +2,12 @@
 - name: Create switch account
   hosts: switches
   tasks:
-  - name: Create Admin account
-    community.network.exos_command:
+  - name: Create Local-Admin
+    community.network.exos_config:
       commands: create account admin Local-Admin WGU123
 
 - name: Create Windows accounts
   hosts: windows
-  become: true
   tasks:
     - name: Create DesktopUser1
       delegate_to: desktop1
