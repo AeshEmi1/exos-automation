@@ -51,12 +51,12 @@
       run_once: true
       ansible.builtin.user:
         name: TestUser1
-        password: WGU123
+        password: $6$7gzNTVt7p1oP7tPi$yEawl5Tgy1pEGUW.GrghmzqWArVf1FuGLx.cDrQFZnUsOxRgRefMixEpJe5794mFAx0rrW8D2d.dXXV/i.tCS.
         group: sudo
     - name: Create TestUser2
       delegate_to: test2
       run_once: true
       ansible.builtin.user:
         name: TestUser2
-        password: WGU123
+        password: $6$5EE4BeGjuKEnmd7L$YV6yafzg3HJ9eMxBqv3n.PPBmr5aCmqUp6LVkAPLR6RW.S7Rqc9pax3lBFfVIgtDGqVdgaWniEYs6OY1jW7jG.
         group: sudo
