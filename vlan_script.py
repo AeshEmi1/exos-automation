@@ -37,24 +37,25 @@ class SwitchConfiguration:
     def configure_vlans(self):
         """Method for part C2. Configures VLANs on the switches. Returns the orginal switch configuration."""
         if self.switch_connection:
-            print(f"Running command on {self.host}: create vlan user_vlan tag 10")
+            print(f"\n{'-'*20}\nNow configuring {self.host}:\n")
+            print(f"Running command: create vlan user_vlan tag 10")
             self.switch_connection.send_command("create vlan user_vlan tag 10")
             print("Success!")
 
-            print(f"Running command on {self.host}: create vlan accoutning_vlan tag 20")
+            print(f"Running command: create vlan accoutning_vlan tag 20")
             self.switch_connection.send_command("create vlan accounting_vlan tag 20")
             print("Success!")
 
-            print(f"Running command on {self.host}: create vlan management_vlan tag 30")
+            print(f"Running command: create vlan management_vlan tag 30")
             self.switch_connection.send_command("create vlan management_vlan tag 30")
             print("Success!")
 
-            print(f"Running command on {self.host}: create vlan it_network tag 40")
+            print(f"Running command: create vlan it_network tag 40")
             self.switch_connection.send_command("create vlan it_network tag 40")
             print("Success!")
-
-            print(f"Successfully configured {self.host}!")
-            return f"VLANs on {self.host}: {', '.join(self.identify_vlans())}\n"
+            print(f"\nVLANs on {self.host}: {', '.join(self.identify_vlans())}")
+            print(f"Successfully configured {self.host}!\n{'-'*20}")
+            
 
         print("Error! Unable to configure VLANs. Connection Failed!") 
 
@@ -73,7 +74,7 @@ def configure_vlans(switch_list):
     """Function for step C2, configures vlans on the switches."""
     # Step C2 - Configure vlans
     for switch in switch_list:
-        print(switch.configure_vlans())    
+        switch.configure_vlans()
 
 def main():
     # Take arguments for C1 and C2
