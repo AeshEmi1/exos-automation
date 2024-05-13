@@ -45,15 +45,16 @@ class SwitchConfiguration:
 
                 print(f"Running command: create vlan accoutning_vlan tag 20")
                 self.switch_connection.send_command("create vlan accounting_vlan tag 20")
-                print("Success!")
+                
 
                 print(f"Running command: create vlan management_vlan tag 30")
                 self.switch_connection.send_command("create vlan management_vlan tag 30")
-                print(f"Successfully configured {self.host}!")
+                print("Success!")
 
                 print(f"Running command: create vlan it_network tag 40")
                 self.switch_connection.send_command("create vlan it_network tag 40")
-                print("Success!")
+                print(f"Successfully configured {self.host}!")
+                
                 print(f"\nVLANs on {self.host}: {', '.join(self.identify_vlans())}\n{'-'*50}")
             
         except:
