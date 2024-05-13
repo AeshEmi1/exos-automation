@@ -36,28 +36,29 @@ class SwitchConfiguration:
 
     def configure_vlans(self):
         """Method for part C2. Configures VLANs on the switches. Returns the orginal switch configuration."""
-        if self.switch_connection:
-            print(f"\n{'-'*20}\nNow configuring {self.host}:\n")
-            print(f"Running command: create vlan user_vlan tag 10")
-            self.switch_connection.send_command("create vlan user_vlan tag 10")
-            print("Success!")
+        try:
+            if self.switch_connection:
+                print(f"\n{'-'*50}\nNow configuring {self.host}:\n")
+                print(f"Running command: create vlan user_vlan tag 10")
+                self.switch_connection.send_command("create vlan user_vlan tag 10")
+                print("Success!")
 
-            print(f"Running command: create vlan accoutning_vlan tag 20")
-            self.switch_connection.send_command("create vlan accounting_vlan tag 20")
-            print("Success!")
+                print(f"Running command: create vlan accoutning_vlan tag 20")
+                self.switch_connection.send_command("create vlan accounting_vlan tag 20")
+                print("Success!")
 
-            print(f"Running command: create vlan management_vlan tag 30")
-            self.switch_connection.send_command("create vlan management_vlan tag 30")
-            print("Success!")
+                print(f"Running command: create vlan management_vlan tag 30")
+                self.switch_connection.send_command("create vlan management_vlan tag 30")
+                print("Success!")
 
-            print(f"Running command: create vlan it_network tag 40")
-            self.switch_connection.send_command("create vlan it_network tag 40")
-            print("Success!")
-            print(f"\nVLANs on {self.host}: {', '.join(self.identify_vlans())}")
-            print(f"Successfully configured {self.host}!\n{'-'*20}")
+                print(f"Running command: create vlan it_network tag 40")
+                self.switch_connection.send_command("create vlan it_network tag 40")
+                print("Success!")
+                print(f"\nVLANs on {self.host}: {', '.join(self.identify_vlans())}")
+                print(f"Successfully configured {self.host}!\n{'-'*50}")
             
-
-        print("Error! Unable to configure VLANs. Connection Failed!") 
+        except:
+            print(f"Error! Unable to configure VLANs on {self.host}. Connection Failed!") 
 
 
 def print_vlans(switch_list):
