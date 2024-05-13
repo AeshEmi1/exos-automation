@@ -38,7 +38,7 @@ class SwitchConfiguration:
         """Method for part C2. Configures VLANs on the switches. Returns the orginal switch configuration."""
         try:
             if self.switch_connection:
-                print(f"\n{'-'*50}\nNow configuring {self.host}:\n")
+                print(f"\n{'-'*50}\nNow configuring {self.host}:\n{'-'*50}\n")
                 print(f"Running command: create vlan user_vlan tag 10")
                 self.switch_connection.send_command("create vlan user_vlan tag 10")
                 print("Success!")
@@ -49,13 +49,12 @@ class SwitchConfiguration:
 
                 print(f"Running command: create vlan management_vlan tag 30")
                 self.switch_connection.send_command("create vlan management_vlan tag 30")
-                print("Success!")
+                print(f"Successfully configured {self.host}!")
 
                 print(f"Running command: create vlan it_network tag 40")
                 self.switch_connection.send_command("create vlan it_network tag 40")
                 print("Success!")
-                print(f"\nVLANs on {self.host}: {', '.join(self.identify_vlans())}")
-                print(f"Successfully configured {self.host}!\n{'-'*50}")
+                print(f"\nVLANs on {self.host}: {', '.join(self.identify_vlans())}\n{'-'*50}")
             
         except:
             print(f"Error! Unable to configure VLANs on {self.host}. Connection Failed!") 
