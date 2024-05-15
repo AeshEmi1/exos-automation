@@ -80,7 +80,8 @@ switch_variables = {
     "ansible_network_os":"community.network.exos",
     "ansible_user":"admin",
     "ansible_ssh_pass":"",
-    "ansible_ssh_extra_args":"-o StrictHostKeyChecking=accept-new"
+    "ansible_ssh_extra_args":"-o StrictHostKeyChecking=accept-new",
+    "ansible_ssh_common_args":"-o StrictHostKeyChecking=accept-new",
 }
 
 # Step E - Create a dictionary of the Windows group with each workstation's elements
