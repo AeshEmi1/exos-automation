@@ -79,7 +79,8 @@ switch_variables = {
     "ansible_connection":"ansible.netcommon.network_cli",
     "ansible_network_os":"community.network.exos",
     "ansible_user":"admin",
-    "ansible_ssh_pass":""
+    "ansible_ssh_pass":"",
+    "ansible_ssh_extra_args":"-o StrictHostKeyChecking=accept-new"
 }
 
 # Step E - Create a dictionary of the Windows group with each workstation's elements
@@ -250,6 +251,6 @@ with open("/etc/ansible/inventory/switches", "w") as f:
     yaml.safe_dump(ansible_format(switch_groups, group_variables), f, sort_keys=False)
     print("Successfully wrote switch inventory file to /etc/ansible/inventory/switches!")
 
-# with open("/etc/ansible/inventory/workstations", "w") as f:
+# with open("workstations", "w") as f:
 #     yaml.safe_dump(ansible_format(workstation_groups, group_variables), f, sort_keys=False)
 #     print("Successfully wrote workstation inventory file to /etc/ansible/inventory/workstations!")
