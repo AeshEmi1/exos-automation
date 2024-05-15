@@ -79,8 +79,7 @@ switch_variables = {
     "ansible_connection":"ansible.netcommon.network_cli",
     "ansible_network_os":"community.network.exos",
     "ansible_user":"admin",
-    "ansible_ssh_pass":"",
-    "ansible_host_key_auto_add":"True"
+    "ansible_ssh_pass":""
 }
 
 # Step E - Create a dictionary of the Windows group with each workstation's elements
