@@ -33,27 +33,37 @@ class SwitchConfiguration:
     def parse_vlans(self, command_output):
         """Helper method to parse VLANs into an array"""
         return re.findall(r'VLAN Interface with name (.*) created by', command_output)
+    
+    def get_switch_ip(self):
+        """Returns the IP address of the switch, used to remove the local switch from the configuration list and configure VLANs on specific switches."""
+        return self.host
 
     def configure_vlans(self):
         """Method for part C2. Configures VLANs on the switches. Returns the orginal switch configuration."""
         try:
             if self.switch_connection:
                 print(f"\n{'-'*50}\nNow configuring {self.host}:\n{'-'*50}\n")
-                print(f"Running command: create vlan user_vlan tag 10")
-                self.switch_connection.send_command("create vlan user_vlan tag 10")
-                print("Success!")
 
-                print(f"Running command: create vlan accoutning_vlan tag 20")
-                self.switch_connection.send_command("create vlan accounting_vlan tag 20")
-                
-
-                print(f"Running command: create vlan management_vlan tag 30")
-                self.switch_connection.send_command("create vlan management_vlan tag 30")
-                print("Success!")
-
-                print(f"Running command: create vlan it_network tag 40")
-                self.switch_connection.send_command("create vlan it_network tag 40")
-                print(f"Successfully configured {self.host}!")
+                # Switch statements to configure specific hosts
+                match self.host:
+                    case "10.10.1.22":
+                        print(f"Running command: create vlan user_vlan tag 10")
+                        self.switch_connection.send_command("create vlan user_vlan tag 10")
+                        print(f"Successfully configured {self.host}!")
+                    case "10.10.1.32":
+                        print(f"Running command: create vlan accoutning_vlan tag 20")
+                        self.switch_connection.send_command("create vlan accounting_vlan tag 20")
+                        print(f"Successfully configured {self.host}!")
+                    case "10.10.1.31":
+                        print(f"Running command: create vlan management_vlan tag 30")
+                        self.switch_connection.send_command("create vlan management_vlan tag 30")
+                        print(f"Successfully configured {self.host}!")
+                    case "10.10.1.30":
+                        print(f"Running command: create vlan it_network tag 40")
+                        self.switch_connection.send_command("create vlan it_network tag 40")
+                        print(f"Successfully configured {self.host}!")
+                    case _:
+                        print(f"Error! Unknown switch or switch does not need to be configured.")
                 
                 print(f"\nVLANs on {self.host}: {', '.join(self.identify_vlans())}\n{'-'*50}")
             
@@ -75,7 +85,9 @@ def configure_vlans(switch_list):
     """Function for step C2, configures vlans on the switches."""
     # Step C2 - Configure vlans
     for switch in switch_list:
-        switch.configure_vlans()
+        # Configure all switches except the local switch
+        if switch.get_switch_ip() != "10.10.1.24":
+            switch.configure_vlans()
 
 def main():
     # Take arguments for C1 and C2
