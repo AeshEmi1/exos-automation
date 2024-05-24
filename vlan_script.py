@@ -44,25 +44,24 @@ class SwitchConfiguration:
             if self.switch_connection:
                 print(f"\n{'-'*50}\nNow configuring {self.host}:\n{'-'*50}\n")
 
-                # Switch statements to configure specific hosts
-                match self.host:
-                    case "10.10.1.22":
+                # Configure specific hosts (If statements, because switch statements aren't available in python3.8)
+                if self.host == "10.10.1.22":
                         print(f"Running command: create vlan user_vlan tag 10")
                         self.switch_connection.send_command("create vlan user_vlan tag 10")
                         print(f"Successfully configured {self.host}!")
-                    case "10.10.1.32":
+                elif self.host == "10.10.1.32":
                         print(f"Running command: create vlan accoutning_vlan tag 20")
                         self.switch_connection.send_command("create vlan accounting_vlan tag 20")
                         print(f"Successfully configured {self.host}!")
-                    case "10.10.1.31":
+                elif self.host == "10.10.1.31":
                         print(f"Running command: create vlan management_vlan tag 30")
                         self.switch_connection.send_command("create vlan management_vlan tag 30")
                         print(f"Successfully configured {self.host}!")
-                    case "10.10.1.30":
+                elif self.host ==  "10.10.1.30":
                         print(f"Running command: create vlan it_network tag 40")
                         self.switch_connection.send_command("create vlan it_network tag 40")
                         print(f"Successfully configured {self.host}!")
-                    case _:
+                else:
                         print(f"Error! Unknown switch or switch does not need to be configured.")
                 
                 print(f"\nVLANs on {self.host}: {', '.join(self.identify_vlans())}\n{'-'*50}")
